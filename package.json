@@ -1,0 +1,33 @@
+{
+  "name": "flexroute",
+  "version": "0.0.1-a",
+  "description": "Possibly the world's most flexible router",
+  "type": "module",
+  "main": "flexroute.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anywhichway/flexroute.git"
+  },
+  "keywords": [
+    "router",
+    "itty-router",
+    "hono",
+    "express",
+    "feathers"
+  ],
+  "author": "Simon Y. Blackwell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anywhichway/flexroute/issues"
+  },
+  "homepage": "https://github.com/anywhichway/flexroute#readme",
+  "devDependencies": {
+    "express": "^4.18.2"
+  },
+  "dependencies": {
+    "ws": "^8.14.2"
+  }
+}
