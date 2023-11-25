@@ -3,8 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Flexroute Browser Example</title>
+    <script type="module">
+        import flexroute from '../flexroute.js';
+        import adapter from '../adapters/browser.js';
+        window.router = adapter(flexroute());
+    </script>
+    <template id="hello-world">
+        Hello World!
+    </template>
 </head>
 <body>
-
+Run this command in the examples directory in order to have this file work: "node browser-server.js"
+<div id="content"></div>
+<script type="module">
+    const response = await router.handle("#hello-world");
+    document.getElementById("content").innerHTML = await response.text();
+    console.log(router.handle("#content"));
+</script>
 </body>
 </html>
