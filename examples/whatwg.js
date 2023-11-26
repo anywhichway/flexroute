@@ -2,8 +2,8 @@ import process from "node:process";
 import {createServer} from "node:http";
 import {flexroute} from "../flexroute.js";
 import adapter from "../adapters/whatwg.js";
-import sse from "../middleware/whatwg/sse.js";
-import streamResponse from "../util/stream-response.js";
+import sse from "../middleware/server/sse.js";
+import {stream} from "../util/stream-response.js";
 import createFlexServer from "../util/create-flex-server.js";
 import WebSocket from "ws";
 import {TextDecoder, TextEncoder} from "util";
@@ -46,7 +46,7 @@ httpServer.listen(port,host,port, async () => {
     response = await fetch(`http://${host}:${port}/`,{method:"DELETE"});
     console.log(await response.text());
     response = await fetch(`http://${host}:${port}/sse`);
-    streamResponse(response,console.log);
+    stream.call(response,console.log);
     const ws = new WebSocket(`ws://${host}:${port}`);
     ws.on("open",async () => {
         ws.on("message",(message) => {

@@ -18,6 +18,10 @@ flexroute.prototype.handle = async function(item,...rest) {
             result = await route.handle(item,...rest);
             if(result == null) continue;
             return result;
+        } else if(typeof route === "function") {
+            result = await route(item,...rest);
+            if(result == null) continue;
+            return result;
         } else {
             const [gate, ...steps] = route;
             if(this.handleNext) rest.push(() => { steps.splice(0, steps.length) });

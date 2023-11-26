@@ -1,4 +1,5 @@
 import {promises as fs} from "fs";
+import WebSocket from "ws";
 import path from "path";
 import contentTypes from "./content-types.js";
 
@@ -21,9 +22,15 @@ async function sendFile(pathname,{mangle=true}={}) {
                 if(encoding) options.encoding = encoding;
             }
         });
-        const content = await fs.readFile(pathname,options);
+        const content = await fs.readFile(pathname,options),
+            type = typeof content;
+        if(this instanceof WebSocket) {
+            const body = type === "string" ? content : toArrayBuffer(content);
+            this.send(JSON.stringify({headers,body:content})); // not correct, need to handle not string stuff
+            return;
+        }
         this.setHeaders(new Headers(headers));
-        if(typeof content === "string") this.end(content)
+        if(type === "string") this.end(content)
         else this.end(toArrayBuffer(data));
     } catch(e) {
         //console.log(e)

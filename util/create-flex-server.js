@@ -1,6 +1,6 @@
 import flexroute from "../flexroute.js";
 const createFlexServer = function(router,adapter,options={}) {
-    const handler = adapter(router);
+    const handler = adapter(router,options);
     handler.all = function(path,...args) {
         const route = flexroute((item) => (item.URL?.pathname||item.url)===path,...args);
         if(router.handleNext) route.useNext();

@@ -6,19 +6,34 @@
     <script type="module">
         import flexroute from '../flexroute.js';
         import adapter from '../adapters/browser.js';
-        window.router = adapter(flexroute());
+        import proxy from '../middleware/whatwg/proxy.js';
+        const route = flexroute();// or `${window.location.protocol}//${window.location.host}`
+        window.router = adapter(route).withSockets();
     </script>
     <template id="hello-world">
         Hello World!
     </template>
 </head>
 <body>
-Run this command in the examples directory in order to have this file work: "node browser-server.js"
-<div id="content"></div>
+<p>Run this command in the examples directory in order to have this file work: "node browser-server.js"</p>
+Template: <div id="content"></div>
+Remote JSON:<div id="json"></div>
+Remote JSON over WS:<div id="json-over-ws"></div>
 <script type="module">
-    const response = await router.handle("#hello-world");
+    let now, time;
+    let response = await router.handle("#hello-world");
     document.getElementById("content").innerHTML = await response.text();
-    console.log(router.handle("#content"));
+    // warm-up
+    await router.handle("./browser.json");
+    await router.handle(`ws://${location.host}/examples/browser.json`);
+    now = Date.now();
+    response = await router.handle("./browser.json");
+    time = Date.now() - now;
+    document.getElementById("json").innerText = `${time}ms ${await response.text()}`;
+    now = Date.now();
+    response = await router.handle(`ws://${location.host}/examples/browser.json`);
+    time = Date.now() - now;
+    document.getElementById("json-over-ws").innerText = `${time}ms ${await response.text()}`;
 </script>
 </body>
 </html>

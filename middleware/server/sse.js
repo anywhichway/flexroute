@@ -1,18 +1,10 @@
-/*
-sample eventSender
-const dateTime = function (req,res) {
-    return setInterval(() => {
-        res.send(`${new Date()}`);
-    },1000);
-}
- */
 const sse = (eventSender) =>  (req) => {
-    const res = req.rawResponse, // add rawResponse
+    const res = req.rawResponse,
         headers = {
-            'Content-Type': 'text/event-stream',
-            'Connection': 'keep-alive',
-            'Cache-Control': 'no-cache'
-        };
+        'Content-Type': 'text/event-stream',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'no-cache'
+    };
     let closed;
     res.on('close', () => {
         clearInterval(interval);

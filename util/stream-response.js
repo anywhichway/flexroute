@@ -2,8 +2,8 @@ import {TextDecoder} from "util";
 
 const decoder = new TextDecoder();
 
-const streamResponse= async function(response,callback)  {
-    const reader = response.body.getReader();
+const streamResponse= async function(callback)  {
+    const reader = this.body.getReader();
     do {
         const {done,value} = await reader.read();
         if(done) break;
@@ -11,4 +11,4 @@ const streamResponse= async function(response,callback)  {
     } while(true);
 }
 
-export {streamResponse,streamResponse as default}
+export {streamResponse,streamResponse as stream,streamResponse as default}

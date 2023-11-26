@@ -1,9 +1,12 @@
-let nodeResponsePrototype;
-const express = (router) => {
+let prototyped;
+const express = (router,{methods={}}={}) => {
     router.useNext();
     return async (req,res) => {
-        if(!nodeResponsePrototype) {
-            const proto = nodeResponsePrototype = Object.getPrototypeOf(res);
+        if(!prototyped) {
+            prototyped = true;
+            let proto = Object.getPrototypeOf(req);
+            Object.assign(proto,methods.request);
+            proto = Object.getPrototypeOf(res);
             proto.get = function(field)  {
                 this.getHeader(field);
             }
@@ -23,7 +26,9 @@ const express = (router) => {
                 this.statusCode = code;
                 return this;
             }
+            Object.assign(proto,methods.response);
         }
+        req.rawResponse = res;
         return router.handle(req,res);
     }
 };

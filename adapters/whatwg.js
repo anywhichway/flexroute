@@ -26,20 +26,35 @@ const responseOrRequestToJSON = async (value) => {
     }
     return object;
 }
-const whatwg = (router) => {
+let prototyped, nativePrototyped;
+const whatwg = (router,{methods={}}={}) => {
+        if(!prototyped) {
+            prototyped = true;
+            Object.assign(Request.prototype, methods.request);
+            Object.assign(Response.prototype, methods.response);
+        }
         const handler = async (req, env) => {
+            let res;
             if(typeof req === "string") req = new Request(req);
             if (req.constructor.name==="IncomingMessage") {
                 const {headers, method, url, host} = req,
                     options = {method, headers};
                 if(["PUT","POST"].includes(method)) options.body = req.body;
                 req = new Request(`http${req.socket?.encrypted ? "s" : ""}://${headers.host}${url}`, options);
-                if(env.constructor.name==="ServerResponse") Object.defineProperty(req, "rawResponse", {value: env});
+                const res = env;
+                Object.defineProperty(req, "rawResponse", {value: res});
+                if(!nativePrototyped) {
+                    nativePrototyped = true;
+                    let proto = Object.getPrototypeOf(req);
+                    Object.assign(proto, methods.request);
+                    proto = Object.getPrototypeOf(res);
+                    Object.assign(proto, methods.response);
+                }
             } else if(env) {
                 if(env.waitUntil) Object.defineProperty(req, "waitUntil", {value: env.waitUntil.bind(env)});
             }
             req.URL = new URL(req.url);
-            const res = await router.handle(req);
+            res = await router.handle(req);
             if(req.rawResponse && res instanceof Response && res!==req.rawResponse) {
                 [...res.headers?.entries()].forEach(([key,value]) => {
                     req.rawResponse.setHeader(key,value);
@@ -56,7 +71,7 @@ const whatwg = (router) => {
             }
             return res;
         }
-        handler.withSockets = async (httpServer,{host,port}) => {
+        handler.withSockets = async (httpServer,{host,port,callback}) => {
             const _fetch = fetch;
             let ws;
             globalThis.fetch = async (url,request) => {
@@ -89,6 +104,7 @@ const whatwg = (router) => {
                         const request = new Request(`http${ws._socket.encrypted ? "s" :""}://${host}${port ? ":"+port : ""}${url}`, rest);
                         Object.defineProperty(request,"URL",{value:new URL(request.url)});
                         Object.defineProperty(request, "rawResponse", {value: ws});
+                        Object.assign(ws, methods.response);
                         const response = await router.handle(request);
                         if(response instanceof Response) {
                             const object = await responseOrRequestToJSON(response);
@@ -115,7 +131,10 @@ const whatwg = (router) => {
                     }
                 })
             })
+            if(callback) callback(wss);
+            return this;
         }
+        handler.handle = handler;
         return handler
     }
 
