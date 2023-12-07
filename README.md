@@ -245,7 +245,7 @@ See the examples for each router style in `./examples`.
 Flexroute was written:
 
 - so that developers could share route logic between WebSockets and HTTP
-- get WebSocket performance for HTTP requests from the browser
+- to get WebSocket performance for HTTP requests from the browser
 - have choice about the style of routing they use within the context of a single package
 
 It was originally implemented to support choice of routing style in [lazui](https://lazui.org), the lazy UI toolkit.
@@ -253,12 +253,14 @@ It was originally implemented to support choice of routing style in [lazui](http
 Data transformation ability was an accidental discovery.
 
 # Change History (Reverse Chronological Order)
+ 
+2023-12-07 v0.0.5-a added * support for server routes
 
-## 2023-12-07 v0.0.4-a added ability for server routes to start with a function in addition to path string or RegExp
+2023-12-07 v0.0.4-a added ability for server routes to start with a function in addition to path string or RegExp
 
-## 2023-11-26 v0.0.3-a Resolved issues related to WebSockets and added an example for it. Substantial documentation
+2023-11-26 v0.0.3-a Resolved issues related to WebSockets and added an example for it. Substantial documentation
 additions.
 
-## 2023-11-25 v0.0.2-a Fixed issues with browser version and created an example for it
+2023-11-25 v0.0.2-a Fixed issues with browser version and created an example for it
 
-## 2023-11-25 v0.0.1-a Initial public release
+2023-11-25 v0.0.1-a Initial public release
