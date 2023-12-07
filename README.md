@@ -7,7 +7,8 @@ Supports `whatwg` and in browser `#`, Node.js, and `express` style routing.
 
 In `whatwg` mode on the server `flexroute` supports sharing route logic between WebSockets and HTTP. When used in
 combination with a flexroute in the browser, it provides WebSocket performance for HTTP requests. Our testing shows this 
-is never slower and is usually 2x to 3x faster thanh HTTP. See the example `./example/browser.html`.
+is never slower and is usually 2x to 3x faster than HTTP for small text files, e.g. HTML, JSON, txt. See the 
+example `./example/browser.html`.
 
 Can also be used for data transformation and validation.
 
@@ -17,9 +18,9 @@ Comes with middleware:
 - `useStatic` static file serving
 - `proxy` for proxying or falling back to another server
   
-Core module is just 1K minified and 570 bytes gzipped.
+Core module is just 1K minified and 562 bytes gzipped.
 
-Support for express, node or whatwg styles will add between 100 bytes and 1K.
+Support for express, node or whatwg styles will add between 225 bytes and 1K.
 
 # Installation
 
@@ -126,7 +127,7 @@ httpServer.listen(port,host,port, async () => {
 });
 ```
 
-Under the hood, you can access the native response object at `req.rawResponse`. There are something that are hard
+Under the hood, you can access the native response object at `req.rawResponse`. There are some things that are hard
 or inefficient to do with the whatwg response object, so this is provided as a convenience. If you do something
 with the `rawResponse` you MUST return the `rawResponse` from your route handler at some point. See the implementation
 of the `./middleware/server/sse.js` for an example.
@@ -252,6 +253,8 @@ It was originally implemented to support choice of routing style in [lazui](http
 Data transformation ability was an accidental discovery.
 
 # Change History (Reverse Chronological Order)
+
+## 2023-12-07 v0.0.4-a added ability for server routes to start with a function in addition to path string or RegExp
 
 ## 2023-11-26 v0.0.3-a Resolved issues related to WebSockets and added an example for it. Substantial documentation
 additions.

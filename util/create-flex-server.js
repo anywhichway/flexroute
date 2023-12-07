@@ -48,6 +48,7 @@ const createFlexServer = function(router,adapter,options={}) {
                         if(pathname.startsWith(path.slice(0,-2))) return true;
                     }
                     if(type==="object" && path instanceof RegExp) return path.test(pathname);
+                    if(type==="function") return path(item);
                 }
                 return false;
             },...args);
