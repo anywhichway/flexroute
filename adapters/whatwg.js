@@ -102,9 +102,9 @@ const whatwg = (router,{methods={}}={}) => {
             subscriptions = {};
         wss.on("connection", (ws) => {
             ws.on("error",console.error);
-            ws.on("message", async (message) => {
-                const decoded = decoder.decode(message),
-                    {url, topic, ...rest} = JSON.parse(decoded);
+            ws.on("message", async (data) => {
+                const decoded = decoder.decode(data),
+                    {url, topic, message,...rest} = JSON.parse(decoded);
                 if (url) {
                     let pathname = url;
                     try {
@@ -126,15 +126,15 @@ const whatwg = (router,{methods={}}={}) => {
                     }
                 } else if(topic) {
                     const subscribers = subscriptions[topic] ||= new Set();
-                    if(topic==="subscribe") {
+                    if(message==="subscribe") {
                         subscribers.add(ws);
-                    } else if(topic==="unsubscribe") {
+                    } else if(message==="unsubscribe") {
                         subscribers.delete(ws);
-                    } else if(topic==="echo") {
+                    } else if(message==="echo") {
                         ws.send(decoded);
                     } else {
                         subscribers.forEach((client) => {
-                            if (client!==ws && client.readyState === WebSocket.OPEN) {
+                            if (client.readyState === WebSocket.OPEN) {
                                 client.send(decoded);
                             }
                         });
