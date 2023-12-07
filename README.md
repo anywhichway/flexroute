@@ -1,5 +1,5 @@
 # flexroute
-Possibly the world's most flexible router.
+Possibly the world's most flexible JavaScript router.
 
 Early alpha release.  Not ready for production use.
 
@@ -253,6 +253,8 @@ It was originally implemented to support choice of routing style in [lazui](http
 Data transformation ability was an accidental discovery.
 
 # Change History (Reverse Chronological Order)
+
+2023-12-07 v0.0.6-a fixed issue with sendFile not being added to WebSocket responses
  
 2023-12-07 v0.0.5-a added * support for server routes
 
