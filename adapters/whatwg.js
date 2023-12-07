@@ -57,18 +57,21 @@ const whatwg = (router,{methods={}}={}) => {
         }
         req.URL = new URL(req.url);
         res = await router.handle(req);
-        if(req.rawResponse && res instanceof Response && res!==req.rawResponse) {
-            [...res.headers?.entries()].forEach(([key,value]) => {
-                req.rawResponse.setHeader(key,value);
-            })
+        if(req.rawResponse && res instanceof Response && res!==req.rawResponse && !req.rawResponse.finished) {
+            if (!req.rawResponse._headerSent) {
+                [...res.headers?.entries()].forEach(([key, value]) => {
+                    req.rawResponse.setHeader(key, value);
+                })
+            }
+            //if (!res.getHeader || res.getHeader("Content-Type") !== "text/event-stream") {
             req.rawResponse.statusCode = res.status;
             req.rawResponse.statusMessage = res.statusText;
             const reader = res.body.getReader();
             do {
-                const {done,value} = await reader.read();
-                if(done) break;
+                const {done, value} = await reader.read();
+                if (done) break;
                 req.rawResponse.write(value);
-            } while(true);
+            } while (true);
             req.rawResponse.end();
         }
         return res;

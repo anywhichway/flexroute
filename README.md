@@ -254,6 +254,8 @@ Data transformation ability was an accidental discovery.
 
 # Change History (Reverse Chronological Order)
 
+2023-12-07 v0.0.7-a fixed issue with SSE not sending in correct format for browser
+
 2023-12-07 v0.0.6-a fixed issue with sendFile not being added to WebSocket responses
  
 2023-12-07 v0.0.5-a added * support for server routes

@@ -14,7 +14,7 @@ const sse = (eventSender) =>  (req) => {
     });
     res.flushHeaders();
     res.send = (value) => {
-        res.write(`${JSON.stringify(value)}`);
+        res.write(`data: ${JSON.stringify(value)}\n\n`);
     }
     // }
     const interval = eventSender(req,res);

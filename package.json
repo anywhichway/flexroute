@@ -1,6 +1,6 @@
 {
   "name": "flexroute",
-  "version": "0.0.6-a",
+  "version": "0.0.7-a",
   "description": "Possibly the world's most flexible Javascript router",
   "type": "module",
   "main": "flexroute.js",
