@@ -56,9 +56,9 @@ router. There are adapters for:
 
 A browser flexroute will do one of three things by default:
 
-1. return the content of a template with the id requested when calling `router.route`
-2. scroll to the element with the id requested when calling `router.route`
-3. return the content of a file with the path requested when calling `router.route`
+1. return the content of a template with the id requested when calling `router.handle`
+2. scroll to the element with the id requested when calling `router.hamdle`
+3. return the content of a file with the path requested when calling `router.handle`
 
 The steps you specify in a route can implement any other behavior you desire.
 
@@ -253,6 +253,8 @@ It was originally implemented to support choice of routing style in [lazui](http
 Data transformation ability was an accidental discovery.
 
 # Change History (Reverse Chronological Order)
+
+2023-12-09 v0.0.9-a added URL to all requests, an object equivalent of url (which is usually a string)
 
 2023-12-07 v0.0.8-a enhanced websocket to be a general topic based message buss
 

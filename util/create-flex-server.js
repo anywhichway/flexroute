@@ -26,6 +26,11 @@ const createFlexServer = function(router,adapter,options={}) {
                 }
             }*/
             const route = flexroute((item) => {
+                try {
+                    item.URL ||= new URL(item.url);
+                } catch {
+
+                }
                 if(item.method === method) {
                     const pathname = item.URL?.pathname||item.url;
                     if(type=== "string" && path.includes(":")) {
