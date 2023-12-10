@@ -44,6 +44,7 @@ const createFlexServer = function(router,adapter,options={}) {
                                 item.params[part.slice(1)] = pathnameparts[i];
                                 continue;
                             }
+                            if(part==="*") break;
                             if(part !== pathnameparts[i]) return false;
                         }
                         return true;

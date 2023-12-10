@@ -254,6 +254,8 @@ Data transformation ability was an accidental discovery.
 
 # Change History (Reverse Chronological Order)
 
+2023-12-10 v0.0.10-a fixed issue with wild card paths not working when parameterized
+
 2023-12-09 v0.0.9-a added URL to all requests, an object equivalent of url (which is usually a string)
 
 2023-12-07 v0.0.8-a enhanced websocket to be a general topic based message buss
